@@ -5,3 +5,10 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/brands';
+
+body {
+    background-image: url("../images/doctolib-background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
