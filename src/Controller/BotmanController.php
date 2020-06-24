@@ -3,11 +3,14 @@
 
 namespace App\Controller;
 
+use App\Service\OnboardingConversation;
 use BotMan\BotMan\BotMan;
 use BotMan\BotMan\BotManFactory;
+use BotMan\BotMan\Cache\SymfonyCache;
 use BotMan\BotMan\Drivers\DriverManager;
 use BotMan\Drivers\Facebook\FacebookDriver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -19,6 +22,16 @@ class BotmanController extends AbstractController
      * @return Response
      */
     public function index(): Response
+    {
+
+        return $this->render('home/home.html.twig');
+    }
+
+    /**
+     * @Route("/botman/chat", name="botman_chat")
+     * @return Response
+     */
+    public function chat(): Response
     {
         $config = [
             'facebook' => [
@@ -32,25 +45,13 @@ class BotmanController extends AbstractController
         DriverManager::loadDriver(FacebookDriver::class);
 
 // Create an instance
-        $botman = BotManFactory::create($config);
 
-// Give the bot something to listen for.
-        $botman->hears('hello', function (BotMan $bot) {
-            $bot->reply('Hello yourself.');
+        $adapter = new FilesystemAdapter();
+        $botman = BotManFactory::create($config, new SymfonyCache($adapter));
+        $botman->hears('Hello', function($bot) {
+            $bot->startConversation(new OnboardingConversation);
+            $bot->run();
         });
-
-// Start listening
-        $botman->listen();
-        return $this->render('home/home.html.twig');
-    }
-
-    /**
-     * @Route("/botman/chat", name="botman_chat")
-     * @return Response
-     */
-    public function chat(): Response
-    {
-
         return $this->render('home/chat.html.twig');
     }
 }
