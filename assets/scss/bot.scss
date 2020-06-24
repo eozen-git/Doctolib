@@ -1,0 +1,35 @@
+$color-bubble: rgba(177, 176, 176, 0.66);
+$primary: #0596de;
+$secondary: #00934e;
+$space: 1rem;
+$space-light: $space / 2;
+$radius-round: 50%;
+$radius: 10px;
+$fontZise: 14px;
+
+.line {
+  font-size: $fontZise;
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  width: 80%;
+
+  .content-line {
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+
+    .bubble {
+      position: relative;
+      box-shadow: 0 0 5px #d5d5d5;
+      padding: $space-light $space;
+      border-radius: $radius;
+      border: 1px solid $secondary;
+    }
+  }
+}
+
+.line .doctor {
+  flex-direction: row-reverse;
+}

@@ -27,6 +27,7 @@ Encore
     .addEntry('images/doctolib-background', './assets/images/doctolib-background.png')
     .addEntry('images/doctor', './assets/images/doctor.jpg')
     .addStyleEntry('app1', './assets/scss/app.scss')
+    .addStyleEntry('bot', './assets/scss/bot.scss')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 

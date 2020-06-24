@@ -6,86 +6,9 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/brands';
 
-@import "mixins";
-
-$color-bubble: rgba(177, 176, 176, 0.66);
-$primary: #0596de;
-$secondary: #00934e;
-$space: 1rem;
-$space-light: $space / 2;
-$radius-round: 50%;
-$radius: 10px;
-$fontZise: 14px;
-
 body {
   background-image: url("../images/doctolib-background.png");
   background-size: cover;
   background-repeat: no-repeat;
   overflow: hidden;
-}
-
-.line {
-  font-size: $fontZise;
-  position: absolute;
-  bottom: 40px;
-  left: 0;
-  right: 0;
-
-  .content-line {
-    display: flex;
-    justify-content: space-around;
-    position: relative;
-
-    .bubble {
-      position: relative;
-      box-shadow: 0 0 5px #d5d5d5;
-      padding: $space-light $space;
-      border-radius: $radius;
-      border: 1px solid $secondary;
-
-      &:after {
-        @include triangleRight(-15px);
-      }
-    }
-
-    .avatar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 2px solid $secondary;
-      border-radius: $radius-round;
-      margin-left: $space;
-      margin-top: $space;
-      margin-bottom: $space;
-      height: 45px;
-      width: 45px;
-      flex: none;
-    }
-  }
-}
-
-.line .doctor {
-  flex-direction: row-reverse;
-
-  .bubble {
-    border: 1px solid $primary;
-  }
-
-  .bubble:after {
-    @include triangleLeft(-15px);
-  }
-
-  .avatar {
-    margin-right: $space;
-    margin-top: $space;
-    margin-bottom: $space;
-    border: 2px solid $primary;
-    overflow: hidden;
-
-    img {
-      object-fit: cover;
-      object-position: top;
-      height: 100%;
-    }
-  }
 }
