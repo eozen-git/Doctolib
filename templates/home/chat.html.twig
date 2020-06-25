@@ -6,9 +6,10 @@
 
 {% block body %}
 <div id="chatArea">
+    {{ dump(conversation) }}
     <div id="messageArea">
         {% for message in conversation %}
-            <p>{{ message }}</p>
+            <p>{{ message.message }}</p>
         {% endfor %}
     </div>
     {{ form_start(form) }}
