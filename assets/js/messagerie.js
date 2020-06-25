@@ -1,8 +1,16 @@
 let results = document.getElementById('messageArea');
+let message_message = document.getElementById('message_message');
+
+let reset = document.getElementById('return')
+
+reset.addEventListener('click', function (e) {
+    message_message.value = 'return'
+    let click = document.getElementById('click');
+    click.click()
+})
 
 window.onload = function getMessages() {
     let control = document.getElementById('messageArea');
-    let message_message = document.getElementById('message_message');
 
     if (control.innerText === "") {
         let divLink = welcome()

@@ -40,4 +40,9 @@ form {
   right: 0;
   padding: 7px;
   background: #f9f9f9;
+
+  .btn {
+    min-width: 50px;
+    max-width: 50px;
+  }
 }

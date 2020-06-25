@@ -54,7 +54,7 @@ class BotmanController extends AbstractController
         if ($form->isSubmitted()) {
             $data = $form->getData();
 
-            if (($data->getMessage() === strtolower('return'))) {
+            if (($data->getMessage() === strtolower('home'))) {
                 $conversation->setMessage($data->getMessage());
                 $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
@@ -80,7 +80,7 @@ class BotmanController extends AbstractController
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
-                $conversation2->setMessage('');
+                $conversation2->setMessage('t\'es foutu');
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
