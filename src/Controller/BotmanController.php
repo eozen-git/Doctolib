@@ -61,16 +61,11 @@ class BotmanController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $data = $form->getData();
-            if (strtolower($data->getMessage()) === 'retour') {
+            if (strtolower($data->getMessage()) === 'home') {
 
                 $conversation->setMessage($data->getMessage());
                 $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
-                $entityManager->flush();
-                $conversation2 = new Conversation();
-                $conversation2->setMessage('Bonjour Docteur, que voulez vous ?');
-                $conversation2->setPostAt(new DateTime);
-                $entityManager->persist($conversation2);
                 $entityManager->flush();
             } elseif (strtolower($data->getMessage()) === 'maladies') {
                 $illness = [];

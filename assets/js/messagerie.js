@@ -4,7 +4,7 @@ let message_message = document.getElementById('message_message');
 let reset = document.getElementById('return')
 
 reset.addEventListener('click', function (e) {
-    message_message.value = 'return'
+    message_message.value = 'home'
     let click = document.getElementById('click');
     click.click()
 })
@@ -26,7 +26,7 @@ window.onload = function getMessages() {
 
                 results.appendChild(div);
 
-                if (message.message === "return") {
+                if (message.message === "home") {
                     let divLink = welcome()
                     results.appendChild(divLink)
                 }
