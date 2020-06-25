@@ -11,6 +11,14 @@
     </div>
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
+        <script>
+            var botmanWidget = {
+                title: 'Dr Botman',
+                background: '#008ede'
+            };
+        </script>
+
+        </script>
         <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
 
     {% endblock %}
