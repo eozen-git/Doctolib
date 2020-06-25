@@ -36,26 +36,64 @@ class BotmanController extends AbstractController
     /**
      * @Route("/botman/chat", name="botman_chat")
      * @param Request $request
-     * @param ConversationRepository $conversationRepository
      * @param EntityManagerInterface $entityManager
+     * @param ConversationRepository $conversationRepository
      * @return Response
      */
-    public function chat(Request $request, ConversationRepository $conversationRepository, EntityManagerInterface $entityManager): Response
+    public function chat(Request $request, EntityManagerInterface $entityManager, ConversationRepository $conversationRepository): Response
     {
         $conversation = new Conversation();
-        $conversations = $conversationRepository->findAll();
         $message = new Message();
         $form = $this->createForm(MessageType::class,$message);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
+            $conv = $conversationRepository->findAll();
+            $convs = [];
+            foreach ($conv as $msg) {
+                $convs[] = $msg->getMessage();
+            }
             $data = $form->getData();
-            $conversation->setMessage($data->getMessage());
-            $conversation->setPostAt(new \DateTime());
-            $entityManager->persist($conversation);
-            $entityManager->flush();
-            if ($data->getMessage() === 'hello') {
+
+            if (($data->getMessage() === 'Bonjour' || $data->getMessage() === 'bonjour' ) && !in_array($data->getMessage(), $convs) ) {
+                $conversation->setMessage($data->getMessage());
+                $conversation->setPostAt(new \DateTime());
+                $entityManager->persist($conversation);
+                $entityManager->flush();
                 $conversation2 = new Conversation();
-                $conversation2->setMessage('Salut mon chou');
+                $conversation2->setMessage('Bonjour Docteur, que voulez vous ?');
+                $conversation2->setPostAt(new \DateTime());
+                $entityManager->persist($conversation2);
+                $entityManager->flush();
+            }
+            if (($data->getMessage() === 'Maladies' || $data->getMessage() === 'maladies') && !in_array($data->getMessage(), $convs) ) {
+                $conversation->setMessage($data->getMessage());
+                $conversation->setPostAt(new \DateTime());
+                $entityManager->persist($conversation);
+                $entityManager->flush();
+                $conversation2 = new Conversation();
+                $conversation2->setMessage('Cancer du sein ou cancer de la prostate?');
+                $conversation2->setPostAt(new \DateTime());
+                $entityManager->persist($conversation2);
+                $entityManager->flush();
+            }
+            if (($data->getMessage() === 'Cancer du sein' || $data->getMessage() === 'cancer du sein') && !in_array($data->getMessage(), $convs) ) {
+                $conversation->setMessage($data->getMessage());
+                $conversation->setPostAt(new \DateTime());
+                $entityManager->persist($conversation);
+                $entityManager->flush();
+                $conversation2 = new Conversation();
+                $conversation2->setMessage('');
+                $conversation2->setPostAt(new \DateTime());
+                $entityManager->persist($conversation2);
+                $entityManager->flush();
+            }
+            if (($data->getMessage() === 'Cancer de la prostate' || $data->getMessage() === 'cancer de la Prostate') && !in_array($data->getMessage(), $convs) ) {
+                $conversation->setMessage($data->getMessage());
+                $conversation->setPostAt(new \DateTime());
+                $entityManager->persist($conversation);
+                $entityManager->flush();
+                $conversation2 = new Conversation();
+                $conversation2->setMessage('');
                 $conversation2->setPostAt(new \DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
@@ -63,7 +101,7 @@ class BotmanController extends AbstractController
         }
         return $this->render('home/chat.html.twig', [
             'form' => $form->createView(),
-            'conversation' => $conversations
+
         ]);
     }
 }

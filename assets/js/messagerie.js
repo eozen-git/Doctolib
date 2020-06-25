@@ -15,5 +15,16 @@ window.onload = function getMessages() {
                 div.appendChild(p2);
                 results.appendChild(div);
             }
+
         })
+    const messageArea = document.querySelector('#chatArea');
+    messageArea.scrollTop = messageArea.scrollHeight;
 }
+document.addEventListener('keyup', function (e) {
+
+    if (e.key === 'Enter') {
+        let input = document.getElementsByName('message[message]');
+        input.value = "";
+    }
+
+})
