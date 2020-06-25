@@ -120,7 +120,19 @@ class BotmanController extends AbstractController
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
-            } else {
+            } elseif (strtolower($data->getMessage()) === 'return') {
+                $conversation = new Conversation();
+                $conversation->setMessage($data->getMessage());
+                $conversation->setPostAt(new DateTime());
+                $entityManager->persist($conversation);
+                $entityManager->flush();
+                $conversation2 = new Conversation();
+                $conversation2->setMessage('Sorry ! I didn\'t understand your request!');
+                $conversation2->setPostAt(new DateTime());
+                $entityManager->persist($conversation2);
+                $entityManager->flush();
+            }
+            else {
                 $medoc = explode(" ", strtolower(trim($data->getMessage())));
                 $medic = [];
                 foreach ($medoc as $word) {
@@ -168,17 +180,6 @@ class BotmanController extends AbstractController
                     $entityManager->flush();
                     $conversation2 = new Conversation();
                     $conversation2->setMessage('The active molecule of ' . $medic . ' is : ' . $mols . '.');
-                    $conversation2->setPostAt(new DateTime());
-                    $entityManager->persist($conversation2);
-                    $entityManager->flush();
-                } else {
-                    $conversation = new Conversation();
-                    $conversation->setMessage($data->getMessage());
-                    $conversation->setPostAt(new DateTime());
-                    $entityManager->persist($conversation);
-                    $entityManager->flush();
-                    $conversation2 = new Conversation();
-                    $conversation2->setMessage('Sorry ! I didn\'t understand your request!');
                     $conversation2->setPostAt(new DateTime());
                     $entityManager->persist($conversation2);
                     $entityManager->flush();

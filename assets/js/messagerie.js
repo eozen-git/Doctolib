@@ -3,17 +3,6 @@ let message_message = document.getElementById('message_message');
 let click = document.getElementById('click')
 let reset = document.getElementById('return')
 
-click.addEventListener('click', function (e) {
-    let textBot = document.getElementById('userText');
-    message_message.value = textBot.value
-})
-
-reset.addEventListener('click', function (e) {
-    message_message.value = 'home'
-    let click = document.getElementById('click');
-    click.click()
-})
-
 window.onload = function getMessages() {
     let control = document.getElementById('messageArea');
 
@@ -89,23 +78,15 @@ function welcome() {
     return results.appendChild(divLink)
 }
 
+// addEventListener
+click.addEventListener('click', function (e) {
+    let textBot = document.getElementById('userText');
+    message_message.value = textBot.value
+})
 
-// document.getElementById('btn-message').addEventListener('click', function (e) {
-//
-//     if (document.getElementById('message_message').value.length > 3) {
-//         let message_message = document.getElementById('message_message');
-//         let message = message_message.value;
-//
-//         let messageArea = document.getElementById('messageArea');
-//
-//         let div = document.createElement('div');
-//         let p = document.createElement('p');
-//         p.innerHTML = message;
-//         div.className = 'doctor';
-//
-//         div.appendChild(p);
-//         message_message.value = "";
-//         messageArea.appendChild(div);
-//         messageArea.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"})
-//     }
-// });
+// addEventListener
+reset.addEventListener('click', function (e) {
+    message_message.value = 'home'
+    let click = document.getElementById('click');
+    click.click()
+})
