@@ -3,10 +3,21 @@
             <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/assets/css/chat.min.css">
         {% endblock %}
 
-{% block body %}
 
+{% block body %}
+<div id="chatArea">
+    {{ dump(conversation) }}
+    <div id="messageArea">
+        {% for message in conversation %}
+            <p>{{ message.message }}</p>
+        {% endfor %}
+    </div>
+    {{ form_start(form) }}
+    {{ form_end(form) }}
+</div>
 {% endblock %}
+
     {% block javascripts %}
         {{ parent() }}
-        <script id="botmanWidget" src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/chat.js'></script>
+        {{ encore_entry_script_tags('messagerie') }}
     {% endblock %}
