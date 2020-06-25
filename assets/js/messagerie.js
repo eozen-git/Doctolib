@@ -5,7 +5,7 @@ window.onload = function getMessages() {
         .then(response => response.json())
         .then(conversation => {
 
-                for(message of conversation) {
+            for (message of conversation) {
                 let div = document.createElement('div');
                 div.className = 'doctor';
                 let p = document.createElement('p');
@@ -22,9 +22,18 @@ window.onload = function getMessages() {
                     inline: "nearest"
                 })
             }
-        })
 
+        })
 }
+
+document.addEventListener('keyup', function (e) {
+
+    if (e.key === 'Enter') {
+        let input = document.getElementsByName('message[message]');
+        input.value = "";
+    }
+
+})
 
 
 // document.getElementById('btn-message').addEventListener('click', function (e) {
