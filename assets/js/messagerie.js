@@ -33,8 +33,8 @@ window.onload = function getMessages() {
                     choice1.innerText = "Traitements"
                     choice2.innerText = "Maladies"
 
-                    choice1.setAttribute("href", "")
-                    choice2.setAttribute("href", "")
+                    choice1.setAttribute("href", "/drugs/index")
+                    choice2.setAttribute("href", "/diseases/index")
 
                     divLink.appendChild(choice1);
                     divLink.appendChild(choice2);
