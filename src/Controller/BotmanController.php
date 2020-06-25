@@ -67,7 +67,7 @@ class BotmanController extends AbstractController
                 $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
                 $entityManager->flush();
-            } elseif (strtolower($data->getMessage()) === 'maladies') {
+            } elseif (strtolower($data->getMessage()) === 'diseases') {
                 $illness = [];
                 foreach ($diseases as $disease) {
                     $illness[] = $disease->getName();
@@ -79,11 +79,11 @@ class BotmanController extends AbstractController
                 $entityManager->flush();
                 $conversation2 = new Conversation();
                 $illness = implode(", ", $illness);
-                $conversation2->setMessage("Les maladie disponibles sont " . $illness . '.');
+                $conversation2->setMessage("The diseases you can choose from are " . $illness . '.');
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
-            } elseif (strtolower($data->getMessage()) === 'cancer du sein') {
+            } elseif (strtolower($data->getMessage()) === 'breast cancer') {
 
                 $conversation = new Conversation();
                 $conversation->setMessage($data->getMessage());
@@ -98,11 +98,11 @@ class BotmanController extends AbstractController
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
-                $conversation2->setMessage('Les médicaments disponibles contre ' . $disease->getName() . ' sont : ' . $pills . '.');
+                $conversation2->setMessage('The available drugs against the ' . $disease->getName() . ' are : ' . $pills . '.');
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
-            } elseif (strtolower($data->getMessage()) === 'cancer de la Prostate') {
+            } elseif (strtolower($data->getMessage()) === 'prostate cancer') {
                 $conversation = new Conversation();
                 $conversation->setMessage($data->getMessage());
                 $disease = $diseaseRepository->findOneBy(['name' => 'Prostate Cancer']);
@@ -116,7 +116,7 @@ class BotmanController extends AbstractController
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
-                $conversation2->setMessage('Les médicaments disponibles contre ' . $disease->getName() . ' sont : ' . $pills . '.');
+                $conversation2->setMessage('The available drugs against the ' . $disease->getName() . ' are : ' . $pills . '.');
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
@@ -153,7 +153,7 @@ class BotmanController extends AbstractController
                     $entityManager->persist($conversation);
                     $entityManager->flush();
                     $conversation2 = new Conversation();
-                    $conversation2->setMessage('Les médicaments disponibles pour la molécule ' . $medic . ' sont : ' . $medics . '.');
+                    $conversation2->setMessage('The active molecule of ' . $medic . ' is : ' . $medics . '.');
                     $conversation2->setPostAt(new DateTime());
                     $entityManager->persist($conversation2);
                     $entityManager->flush();
@@ -167,7 +167,7 @@ class BotmanController extends AbstractController
                     $entityManager->persist($conversation);
                     $entityManager->flush();
                     $conversation2 = new Conversation();
-                    $conversation2->setMessage('Les médicaments disponibles pour la molécule ' . $medic . ' sont : ' . $mols . '.');
+                    $conversation2->setMessage('The medicines with active molecule ' . $medic . ' are : ' . $mols . '.');
                     $conversation2->setPostAt(new DateTime());
                     $entityManager->persist($conversation2);
                     $entityManager->flush();
