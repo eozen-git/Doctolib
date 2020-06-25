@@ -7,14 +7,40 @@ window.onload = function getMessages() {
 
             for (message of conversation) {
                 let div = document.createElement('div');
-                div.className = 'doctor';
                 let p = document.createElement('p');
-                p.innerText = message.message;
-                div.appendChild(p);
                 let p2 = document.createElement('p');
+
+                div.className = 'doctor';
+                p.innerText = message.message;
+
                 p2.innerText = message.postAt;
+
+                div.appendChild(p);
                 div.appendChild(p2);
+
                 results.appendChild(div);
+
+                if (message.message === 'Bonjour Docteur, que voulez vous ?') {
+
+                    let choice1 = document.createElement('a');
+                    let choice2 = document.createElement('a');
+                    let divLink = document.createElement('div');
+
+                    divLink.className = "link my-2"
+                    choice1.className = "btn btn-sm"
+                    choice2.className = "btn btn-sm"
+
+                    choice1.innerText = "Traitements"
+                    choice2.innerText = "Maladies"
+
+                    choice1.setAttribute("href", "")
+                    choice2.setAttribute("href", "")
+
+                    divLink.appendChild(choice1);
+                    divLink.appendChild(choice2);
+
+                    results.appendChild(divLink)
+                }
 
                 results.scrollIntoView({
                     behavior: "smooth",
@@ -26,14 +52,13 @@ window.onload = function getMessages() {
         })
 }
 
-document.addEventListener('keyup', function (e) {
 
-    if (e.key === 'Enter') {
-        let input = document.getElementsByName('message[message]');
-        input.value = "";
-    }
-
-})
+// document.addEventListener('keyup', function (e) {
+//     if (e.key === 'Enter') {
+//         let input = document.getElementsByName('message[message]');
+//         input.value = "";
+//     }
+// })
 
 
 // document.getElementById('btn-message').addEventListener('click', function (e) {
