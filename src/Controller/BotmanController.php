@@ -46,14 +46,19 @@ class BotmanController extends AbstractController
         $conversations = $conversationRepository->findAll();
         $message = new Message();
         $form = $this->createForm(MessageType::class,$message);
+        $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $data = $form->getData();
-
-            $conversation = $data['message'];
+            $conversation->setMessage($data->getMessage());
+            $conversation->setPostAt(new \DateTime());
             $entityManager->persist($conversation);
             $entityManager->flush();
-            if ($data['message'] === 'hello') {
-                $conversation = 'Salut Doc';
+            if ($data->getMessage() === 'hello') {
+                $conversation2 = new Conversation();
+                $conversation2->setMessage('Salut mon chou');
+                $conversation2->setPostAt(new \DateTime());
+                $entityManager->persist($conversation2);
+                $entityManager->flush();
             }
         }
         return $this->render('home/chat.html.twig', [
