@@ -7,6 +7,7 @@ use App\Entity\Conversation;
 use App\Entity\Message;
 use App\Form\MessageType;
 use App\Repository\ConversationRepository;
+use App\Repository\DiseaseRepository;
 use App\Service\OnboardingConversation;
 use BotMan\BotMan\BotMan;
 use BotMan\BotMan\BotManFactory;
@@ -38,23 +39,24 @@ class BotmanController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param ConversationRepository $conversationRepository
+     * @param DiseaseRepository $diseaseRepository
      * @return Response
      */
-    public function chat(Request $request, EntityManagerInterface $entityManager, ConversationRepository $conversationRepository): Response
-    {
+    public function chat(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        ConversationRepository $conversationRepository,
+        DiseaseRepository $diseaseRepository
+    ): Response {
         $conversation = new Conversation();
         $message = new Message();
+        $diseases = $diseaseRepository->findAll();
         $form = $this->createForm(MessageType::class,$message);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
-            $conv = $conversationRepository->findAll();
-            $convs = [];
-            foreach ($conv as $msg) {
-                $convs[] = $msg->getMessage();
-            }
             $data = $form->getData();
 
-            if (($data->getMessage() === 'Bonjour' || $data->getMessage() === 'bonjour' ) && !in_array($data->getMessage(), $convs) ) {
+            if (($data->getMessage() === 'Bonjour' || $data->getMessage() === 'bonjour' )) {
                 $conversation->setMessage($data->getMessage());
                 $conversation->setPostAt(new \DateTime());
                 $entityManager->persist($conversation);
@@ -65,18 +67,24 @@ class BotmanController extends AbstractController
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
             }
-            if (($data->getMessage() === 'Maladies' || $data->getMessage() === 'maladies') && !in_array($data->getMessage(), $convs) ) {
+            if (($data->getMessage() === 'Maladies' || $data->getMessage() === 'maladies')) {
+                $illness = [];
+                foreach ($diseases as $disease) {
+                    $illness[] = $disease->getName();
+                }
                 $conversation->setMessage($data->getMessage());
                 $conversation->setPostAt(new \DateTime());
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
-                $conversation2->setMessage('Cancer du sein ou cancer de la prostate?');
+                $illness = implode(", ", $illness);
+                $conversation2->setMessage("Les maladie disponibles sont " . $illness . '.');
                 $conversation2->setPostAt(new \DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
+
             }
-            if (($data->getMessage() === 'Cancer du sein' || $data->getMessage() === 'cancer du sein') && !in_array($data->getMessage(), $convs) ) {
+            if (($data->getMessage() === 'Cancer du sein' || $data->getMessage() === 'cancer du sein')) {
                 $conversation->setMessage($data->getMessage());
                 $conversation->setPostAt(new \DateTime());
                 $entityManager->persist($conversation);
@@ -87,17 +95,25 @@ class BotmanController extends AbstractController
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
             }
-            if (($data->getMessage() === 'Cancer de la prostate' || $data->getMessage() === 'cancer de la Prostate') && !in_array($data->getMessage(), $convs) ) {
+            if (($data->getMessage() === 'Cancer de la prostate' || $data->getMessage() === 'cancer de la Prostate')) {
                 $conversation->setMessage($data->getMessage());
+                $disease = $diseaseRepository->findOneBy(['name' => 'Prostate Cancer']);
+                $drugs = $disease->getDrugs();
+                $pills = [];
+                foreach ($drugs as $drug){
+                    $pills[] = $drug->getName();
+                }
+                $pills = implode(", ", $pills);
                 $conversation->setPostAt(new \DateTime());
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
-                $conversation2->setMessage('');
+                $conversation2->setMessage('Les médicaments disponibles contre ' . $disease->getName() .  ' sont : ' . $pills . '.');
                 $conversation2->setPostAt(new \DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
             }
+
         }
         return $this->render('home/chat.html.twig', [
             'form' => $form->createView(),
