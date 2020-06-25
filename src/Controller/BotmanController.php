@@ -3,6 +3,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Message;
+use App\Form\MessageType;
 use App\Service\OnboardingConversation;
 use BotMan\BotMan\BotMan;
 use BotMan\BotMan\BotManFactory;
@@ -11,6 +13,7 @@ use BotMan\BotMan\Drivers\DriverManager;
 use BotMan\Drivers\Facebook\FacebookDriver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -31,28 +34,22 @@ class BotmanController extends AbstractController
      * @Route("/botman/chat", name="botman_chat")
      * @return Response
      */
-    public function chat(): Response
+    public function chat(Request $request): Response
     {
-        $config = [
-            'facebook' => [
-                'token' => 'YOUR-FACEBOOK-PAGE-TOKEN-HERE',
-                'app_secret' => 'YOUR-FACEBOOK-APP-SECRET-HERE',
-                'verification'=>'MY_SECRET_VERIFICATION_TOKEN',
-            ]
-        ];
-
-// Load the driver(s) you want to use
-        DriverManager::loadDriver(FacebookDriver::class);
-
-// Create an instance
-
-        $adapter = new FilesystemAdapter();
-        $botman = BotManFactory::create($config, new SymfonyCache($adapter));
-        $botman->hears('Hello', function($bot) {
-            $bot->startConversation(new OnboardingConversation);
-            $bot->run();
-        });
-        return $this->render('home/chat.html.twig');
+        $conversation = [];
+        $message = new Message();
+        $form = $this->createForm(MessageType::class,$message);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $conversation = $data['message'];
+            if ($data['message'] === 'hello') {
+                $conversation = 'Salut Doc';
+            }
+        }
+        return $this->render('home/chat.html.twig', [
+            'form' => $form->createView(),
+            'conversation' => $conversation
+        ]);
     }
 }
 
