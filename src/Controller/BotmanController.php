@@ -57,71 +57,17 @@ class BotmanController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $data = $form->getData();
-
-            if ( strtolower($data->getMessage()) === 'retour' ) {
-
-                $conversation->setMessage($data->getMessage());
-                $conversation->setPostAt(new DateTime());
-                $entityManager->persist($conversation);
-                $entityManager->flush();
-                $conversation2 = new Conversation();
-                $conversation2->setMessage('Bonjour Docteur, que voulez vous ?');
-                $conversation2->setPostAt(new DateTime);
-                $entityManager->persist($conversation2);
-                $entityManager->flush();
-            }
-
-            if ( strtolower($data->getMessage()) === 'maladies' ) {
-                $illness = [];
-                foreach ($diseases as $disease) {
-                    $illness[] = $disease->getName();
-                }
-                $conversation = new Conversation();
-                $conversation->setMessage($data->getMessage());
-                $conversation->setPostAt(new DateTime());
-                $entityManager->persist($conversation);
-                $entityManager->flush();
-                $conversation2 = new Conversation();
-                $illness = implode(", ", $illness);
-                $conversation2->setMessage("Les maladie disponibles sont " . $illness . '.');
-                $conversation2->setPostAt(new DateTime());
-                $entityManager->persist($conversation2);
-                $entityManager->flush();
-            }
-
-            if ( strtolower($data->getMessage()) === 'cancer du sein') {
-
-                $conversation->setMessage($data->getMessage());
-                $conversation->setPostAt(new DateTime());
-                $entityManager->persist($conversation);
-                $entityManager->flush();
-                $conversation2 = new Conversation();
-                $conversation2->setMessage('');
-                $conversation2->setPostAt(new DateTime());
-                $entityManager->persist($conversation2);
-                $entityManager->flush();
-            }
-
-            if ( strtolower($data->getMessage()) === 'cancer de la Prostate') {
-                $conversation = new Conversation();
-                $conversation->setMessage($data->getMessage());
-                $disease = $diseaseRepository->findOneBy(['name' => 'Prostate Cancer']);
-                $drugs = $disease->getDrugs();
-                $pills = [];
-                foreach ($drugs as $drug){
-                    $pills[] = $drug->getName();
-                }
-                $pills = implode(", ", $pills);
-                $conversation->setPostAt(new DateTime());
-                $entityManager->persist($conversation);
-                $entityManager->flush();
-                $conversation2 = new Conversation();
-                $conversation2->setMessage('Les médicaments disponibles contre ' . $disease->getName() .  ' sont : ' . $pills . '.');
-                $conversation2->setPostAt(new DateTime());
-                $entityManager->persist($conversation2);
-                $entityManager->flush();
-            }
-
+        }else {
+            $conversation = new Conversation();
+            $conversation->setMessage($data->getMessage());
+            $conversation->setPostAt(new DateTime());
+            $entityManager->persist($conversation);
+            $entityManager->flush();
+            $conversation2 = new Conversation();
+            $conversation2->setMessage('Sorry ! I didn\'t understand your request!');
+            $conversation2->setPostAt(new DateTime());
+            $entityManager->persist($conversation2);
+            $entityManager->flush();
         }
         return $this->render('home/chat.html.twig', [
             'form' => $form->createView(),
