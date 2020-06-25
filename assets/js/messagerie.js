@@ -16,6 +16,7 @@ window.onload = function getMessages() {
                 p2.innerText = message.postAt;
 
                 div.appendChild(p);
+
                 div.appendChild(p2);
 
                 results.appendChild(div);
