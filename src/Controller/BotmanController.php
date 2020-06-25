@@ -13,6 +13,7 @@ use BotMan\BotMan\BotManFactory;
 use BotMan\BotMan\Cache\SymfonyCache;
 use BotMan\BotMan\Drivers\DriverManager;
 use BotMan\Drivers\Facebook\FacebookDriver;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -35,66 +36,70 @@ class BotmanController extends AbstractController
 
     /**
      * @Route("/botman/chat", name="botman_chat")
-     * @param Request $request
+     * @param Request                $request
      * @param EntityManagerInterface $entityManager
      * @param ConversationRepository $conversationRepository
      * @return Response
      */
-    public function chat(Request $request, EntityManagerInterface $entityManager, ConversationRepository $conversationRepository): Response
+    public function chat(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        ConversationRepository $conversationRepository
+    ): Response
     {
         $conversation = new Conversation();
         $message = new Message();
-        $form = $this->createForm(MessageType::class,$message);
+        $form = $this->createForm(MessageType::class, $message);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
-            $conv = $conversationRepository->findAll();
-            $convs = [];
-            foreach ($conv as $msg) {
-                $convs[] = $msg->getMessage();
-            }
+//            $conv = $conversationRepository->findAll();
+//            $convs = [];
+//            foreach ($conv as $msg) {
+//                $convs[] = $msg->getMessage();
+//            }
             $data = $form->getData();
 
-            if (($data->getMessage() === 'Bonjour' || $data->getMessage() === 'bonjour' ) && !in_array($data->getMessage(), $convs) ) {
+            if (($data->getMessage() === strtolower('Bonjour'))) {
                 $conversation->setMessage($data->getMessage());
-                $conversation->setPostAt(new \DateTime());
+                $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
                 $conversation2->setMessage('Bonjour Docteur, que voulez vous ?');
-                $conversation2->setPostAt(new \DateTime());
+                $conversation2->setPostAt(new DateTime);
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
             }
-            if (($data->getMessage() === 'Maladies' || $data->getMessage() === 'maladies') && !in_array($data->getMessage(), $convs) ) {
+            if (($data->getMessage() === strtolower('Maladies'))) {
                 $conversation->setMessage($data->getMessage());
-                $conversation->setPostAt(new \DateTime());
+                $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
                 $conversation2->setMessage('Cancer du sein ou cancer de la prostate?');
-                $conversation2->setPostAt(new \DateTime());
+                $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
             }
-            if (($data->getMessage() === 'Cancer du sein' || $data->getMessage() === 'cancer du sein') && !in_array($data->getMessage(), $convs) ) {
+            if (($data->getMessage() === strtolower('Cancer du sein'))) {
                 $conversation->setMessage($data->getMessage());
-                $conversation->setPostAt(new \DateTime());
+                $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
                 $conversation2->setMessage('');
-                $conversation2->setPostAt(new \DateTime());
+                $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
             }
-            if (($data->getMessage() === 'Cancer de la prostate' || $data->getMessage() === 'cancer de la Prostate') && !in_array($data->getMessage(), $convs) ) {
+            if (($data->getMessage() === strtolower('Cancer de la prostate'))) {
                 $conversation->setMessage($data->getMessage());
-                $conversation->setPostAt(new \DateTime());
+                $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
                 $conversation2->setMessage('');
-                $conversation2->setPostAt(new \DateTime());
+                $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
             }
