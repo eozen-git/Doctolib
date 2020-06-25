@@ -19,7 +19,7 @@ a {
 .doctor {
   margin: 10px;
   background-color: #fff;
-  padding: .25rem 1rem;
+  padding: .25rem .5rem;
   width: 70%;
   border: 1px solid #0087de;
   border-radius: 10px;
@@ -40,4 +40,9 @@ form {
   right: 0;
   padding: 7px;
   background: #f9f9f9;
+
+  .btn {
+    min-width: 50px;
+    max-width: 50px;
+  }
 }
