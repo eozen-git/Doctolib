@@ -1,0 +1,40 @@
+#chatArea #messageArea {
+  margin-right: 10px !important;
+  margin-left: 10px !important;
+  padding-bottom: 70px !important;
+}
+
+#messageArea {
+  overflow-y: hidden;
+}
+
+#message_message {
+  width: 60%;
+}
+
+
+.doctor {
+  margin: 10px;
+  background-color: #fff;
+  padding: .25rem 1rem;
+  width: 70%;
+  border: 1px solid #0087de;
+  border-radius: 10px;
+
+  &:nth-child(even) {
+    margin-left: auto;
+    text-align: right;
+  }
+}
+
+form {
+  margin: 8px;
+  display: flex;
+  justify-content: space-around;
+  position: fixed;
+  bottom: 0;
+  left: 0px;
+  right: 0;
+  padding: 7px;
+  background: #f9f9f9;
+}
