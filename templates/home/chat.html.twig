@@ -1,17 +1,25 @@
 {% extends "base.html.twig" %}
+
         {% block stylesheets %}
-            <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/assets/css/chat.min.css">
+            <link rel="stylesheet" type="text/css"
+                  href="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/assets/css/chat.min.css">
+            {{ encore_entry_link_tags('bot') }}
         {% endblock %}
 
 
 {% block body %}
-<div id="chatArea">
-    <div id="messageArea">
+    <div id="chatArea">
+        <div id="messageArea">
 
+        </div>
+
+        {{ form_start(form) }}
+
+        {{ form_widget(form.message) }}
+        <button class="btn-message btn btn-sm">Send</button>
+
+        {{ form_end(form) }}
     </div>
-    {{ form_start(form) }}
-    {{ form_end(form) }}
-</div>
 {% endblock %}
 
     {% block javascripts %}
