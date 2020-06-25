@@ -1,7 +1,12 @@
 let results = document.getElementById('messageArea');
 let message_message = document.getElementById('message_message');
-
+let click = document.getElementById('click')
 let reset = document.getElementById('return')
+
+click.addEventListener('click', function (e) {
+    let textBot = document.getElementById('userText');
+    message_message.value = textBot.value
+})
 
 reset.addEventListener('click', function (e) {
     message_message.value = 'home'

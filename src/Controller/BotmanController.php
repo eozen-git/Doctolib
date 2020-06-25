@@ -182,9 +182,7 @@ class BotmanController extends AbstractController
                     $conversation2->setPostAt(new DateTime());
                     $entityManager->persist($conversation2);
                     $entityManager->flush();
-
                 }
-
             }
         }
         return $this->render('home/chat.html.twig', [

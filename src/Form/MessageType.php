@@ -15,6 +15,7 @@ class MessageType extends AbstractType
     {
         $builder
             ->add('message', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'autocomplete' => 'off'
                 ]
