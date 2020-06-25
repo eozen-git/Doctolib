@@ -153,7 +153,7 @@ class BotmanController extends AbstractController
                     $entityManager->persist($conversation);
                     $entityManager->flush();
                     $conversation2 = new Conversation();
-                    $conversation2->setMessage('The active molecule of ' . $medic . ' is : ' . $medics . '.');
+                    $conversation2->setMessage('The medicines with active molecule ' . $medic . ' aregit a : ' . $medics . '.');
                     $conversation2->setPostAt(new DateTime());
                     $entityManager->persist($conversation2);
                     $entityManager->flush();
@@ -167,7 +167,7 @@ class BotmanController extends AbstractController
                     $entityManager->persist($conversation);
                     $entityManager->flush();
                     $conversation2 = new Conversation();
-                    $conversation2->setMessage('The medicines with active molecule ' . $medic . ' are : ' . $mols . '.');
+                    $conversation2->setMessage('The active molecule of ' . $medic . ' is : ' . $mols . '.');
                     $conversation2->setPostAt(new DateTime());
                     $entityManager->persist($conversation2);
                     $entityManager->flush();
