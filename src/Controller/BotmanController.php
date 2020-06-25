@@ -52,25 +52,19 @@ class BotmanController extends AbstractController
         $form = $this->createForm(MessageType::class, $message);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
-//            $conv = $conversationRepository->findAll();
-//            $convs = [];
-//            foreach ($conv as $msg) {
-//                $convs[] = $msg->getMessage();
-//            }
             $data = $form->getData();
 
-            if (($data->getMessage() === strtolower('Bonjour'))) {
+            if (($data->getMessage() === strtolower('return'))) {
                 $conversation->setMessage($data->getMessage());
                 $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
                 $entityManager->flush();
-                $conversation2 = new Conversation();
-                $conversation2->setMessage('Bonjour Docteur, que voulez vous ?');
-                $conversation2->setPostAt(new DateTime);
-                $entityManager->persist($conversation2);
-                $entityManager->flush();
-            }
-            if (($data->getMessage() === strtolower('Maladies'))) {
+//                $conversation2 = new Conversation();
+//                $conversation2->setMessage('return');
+//                $conversation2->setPostAt(new DateTime);
+//                $entityManager->persist($conversation2);
+//                $entityManager->flush();
+            }elseif (($data->getMessage() === strtolower('Maladies'))) {
                 $conversation->setMessage($data->getMessage());
                 $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
@@ -80,8 +74,7 @@ class BotmanController extends AbstractController
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
-            }
-            if (($data->getMessage() === strtolower('Cancer du sein'))) {
+            }elseif (($data->getMessage() === strtolower('Cancer du sein'))) {
                 $conversation->setMessage($data->getMessage());
                 $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
@@ -91,14 +84,23 @@ class BotmanController extends AbstractController
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
-            }
-            if (($data->getMessage() === strtolower('Cancer de la prostate'))) {
+            }elseif (($data->getMessage() === strtolower('Cancer de la prostate'))) {
                 $conversation->setMessage($data->getMessage());
                 $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
                 $conversation2->setMessage('');
+                $conversation2->setPostAt(new DateTime());
+                $entityManager->persist($conversation2);
+                $entityManager->flush();
+            } else {
+                $conversation->setMessage($data->getMessage());
+                $conversation->setPostAt(new DateTime());
+                $entityManager->persist($conversation);
+                $entityManager->flush();
+                $conversation2 = new Conversation();
+                $conversation2->setMessage('Sorry ! I didn\'t understand your request!');
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
