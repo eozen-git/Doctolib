@@ -39,11 +39,11 @@ class BotmanController extends AbstractController
 
     /**
      * @Route("/botman/chat", name="botman_chat")
-     * @param Request $request
+     * @param Request                $request
      * @param EntityManagerInterface $entityManager
-     * @param MoleculeRepository $moleculeRepository
-     * @param DrugRepository $drugRepository
-     * @param DiseaseRepository $diseaseRepository
+     * @param MoleculeRepository     $moleculeRepository
+     * @param DrugRepository         $drugRepository
+     * @param DiseaseRepository      $diseaseRepository
      * @return Response
      */
     public function chat(
@@ -52,15 +52,16 @@ class BotmanController extends AbstractController
         MoleculeRepository $moleculeRepository,
         DrugRepository $drugRepository,
         DiseaseRepository $diseaseRepository
-    ): Response {
+    ): Response
+    {
         $conversation = new Conversation();
         $message = new Message();
         $diseases = $diseaseRepository->findAll();
-        $form = $this->createForm(MessageType::class,$message);
+        $form = $this->createForm(MessageType::class, $message);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $data = $form->getData();
-            if ( strtolower($data->getMessage()) === 'retour' ) {
+            if (strtolower($data->getMessage()) === 'retour') {
 
                 $conversation->setMessage($data->getMessage());
                 $conversation->setPostAt(new DateTime());
@@ -71,7 +72,7 @@ class BotmanController extends AbstractController
                 $conversation2->setPostAt(new DateTime);
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
-            } elseif ( strtolower($data->getMessage()) === 'maladies' ) {
+            } elseif (strtolower($data->getMessage()) === 'maladies') {
                 $illness = [];
                 foreach ($diseases as $disease) {
                     $illness[] = $disease->getName();
@@ -87,14 +88,14 @@ class BotmanController extends AbstractController
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
-            } elseif ( strtolower($data->getMessage()) === 'cancer du sein') {
+            } elseif (strtolower($data->getMessage()) === 'cancer du sein') {
 
                 $conversation = new Conversation();
                 $conversation->setMessage($data->getMessage());
                 $disease = $diseaseRepository->findOneBy(['name' => 'Breast Cancer']);
                 $drugs = $disease->getDrugs();
                 $pills = [];
-                foreach ($drugs as $drug){
+                foreach ($drugs as $drug) {
                     $pills[] = $drug->getName();
                 }
                 $pills = implode(", ", $pills);
@@ -102,17 +103,17 @@ class BotmanController extends AbstractController
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
-                $conversation2->setMessage('Les médicaments disponibles contre ' . $disease->getName() .  ' sont : ' . $pills . '.');
+                $conversation2->setMessage('Les médicaments disponibles contre ' . $disease->getName() . ' sont : ' . $pills . '.');
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
-            } elseif ( strtolower($data->getMessage()) === 'cancer de la Prostate') {
+            } elseif (strtolower($data->getMessage()) === 'cancer de la Prostate') {
                 $conversation = new Conversation();
                 $conversation->setMessage($data->getMessage());
                 $disease = $diseaseRepository->findOneBy(['name' => 'Prostate Cancer']);
                 $drugs = $disease->getDrugs();
                 $pills = [];
-                foreach ($drugs as $drug){
+                foreach ($drugs as $drug) {
                     $pills[] = $drug->getName();
                 }
                 $pills = implode(", ", $pills);
@@ -120,14 +121,14 @@ class BotmanController extends AbstractController
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
-                $conversation2->setMessage('Les médicaments disponibles contre ' . $disease->getName() .  ' sont : ' . $pills . '.');
+                $conversation2->setMessage('Les médicaments disponibles contre ' . $disease->getName() . ' sont : ' . $pills . '.');
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
             } else {
-                $medoc = explode(" ", strtolower(trim($data -> getMessage())));
+                $medoc = explode(" ", strtolower(trim($data->getMessage())));
                 $medic = [];
-                foreach ($medoc as $word ) {
+                foreach ($medoc as $word) {
                     $medic[] = ucfirst($word);
                 }
                 $medic = implode(" ", $medic);
@@ -146,7 +147,7 @@ class BotmanController extends AbstractController
                     $conversation->setMessage($data->getMessage());
                     $molecule = $moleculeRepository->findOneBy(['name' => $medic]);
                     $id = $molecule->getId();
-                    $medocs = $drugRepository->findBy(['molecule'=> $id]);
+                    $medocs = $drugRepository->findBy(['molecule' => $id]);
                     $medics = [];
                     foreach ($medocs as $medoc) {
                         $medics[] = $medoc->getName();
@@ -157,7 +158,7 @@ class BotmanController extends AbstractController
                     $entityManager->persist($conversation);
                     $entityManager->flush();
                     $conversation2 = new Conversation();
-                    $conversation2->setMessage('Les médicaments disponibles pour la molécule ' . $medic .  ' sont : ' . $medics . '.');
+                    $conversation2->setMessage('Les médicaments disponibles pour la molécule ' . $medic . ' sont : ' . $medics . '.');
                     $conversation2->setPostAt(new DateTime());
                     $entityManager->persist($conversation2);
                     $entityManager->flush();
@@ -171,26 +172,26 @@ class BotmanController extends AbstractController
                     $entityManager->persist($conversation);
                     $entityManager->flush();
                     $conversation2 = new Conversation();
-                    $conversation2->setMessage('Les médicaments disponibles pour la molécule ' . $medic .  ' sont : ' . $mols . '.');
+                    $conversation2->setMessage('Les médicaments disponibles pour la molécule ' . $medic . ' sont : ' . $mols . '.');
                     $conversation2->setPostAt(new DateTime());
                     $entityManager->persist($conversation2);
                     $entityManager->flush();
-                }else {
-            $conversation = new Conversation();
-            $conversation->setMessage($data->getMessage());
-            $conversation->setPostAt(new DateTime());
-            $entityManager->persist($conversation);
-            $entityManager->flush();
-            $conversation2 = new Conversation();
-            $conversation2->setMessage('Sorry ! I didn\'t understand your request!');
-            $conversation2->setPostAt(new DateTime());
-            $entityManager->persist($conversation2);
-            $entityManager->flush();
+                } else {
+                    $conversation = new Conversation();
+                    $conversation->setMessage($data->getMessage());
+                    $conversation->setPostAt(new DateTime());
+                    $entityManager->persist($conversation);
+                    $entityManager->flush();
+                    $conversation2 = new Conversation();
+                    $conversation2->setMessage('Sorry ! I didn\'t understand your request!');
+                    $conversation2->setPostAt(new DateTime());
+                    $entityManager->persist($conversation2);
+                    $entityManager->flush();
 
-        }
+                }
 
             }
-
+        }
         return $this->render('home/chat.html.twig', [
             'form' => $form->createView(),
 

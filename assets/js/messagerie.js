@@ -22,22 +22,7 @@ window.onload = function getMessages() {
         .then(conversation => {
 
             for (message of conversation) {
-<<<<<<< HEAD
-                let div = document.createElement('div');
-                let p = document.createElement('p');
-                let p2 = document.createElement('p');
-
-                div.className = 'doctor';
-                p.innerText = message.message;
-
-                p2.innerText = message.postAt;
-
-                div.appendChild(p);
-
-                div.appendChild(p2);
-=======
                 let div = createBubble(message.message)
->>>>>>> response_bot
 
                 results.appendChild(div);
 
