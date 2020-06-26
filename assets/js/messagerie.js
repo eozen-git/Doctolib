@@ -27,6 +27,9 @@ window.onload = function getMessages() {
                 }else if (message.message.match("^The diseases you")) {
                     let divLink = drugs(message.message)
                     results.appendChild(divLink)
+                }else if (message.message.match("^The active")) {
+                    let divLink = detail(message.message)
+                    results.appendChild(divLink)
                 } else {
                     let div = createBubble(message.message)
                     results.appendChild(div);
@@ -41,13 +44,37 @@ window.onload = function getMessages() {
             }
         })
 }
+
+function detail(medics) {
+    let ul = document.createElement('ul')
+    let div = document.createElement('div')
+    let array = medics.split('-')
+    div.className = 'doctor'
+
+    for (let i = 0; i < array.length; i++) {
+
+        let detail = array[i].split(':')
+        let li = document.createElement('li')
+        let b = document.createElement('b')
+        if (detail[1] !== undefined) {
+            b.innerText = ': ' + detail[1]
+        }
+        li.innerText = detail[0]
+        li.appendChild(b)
+        ul.appendChild(li)
+    }
+    div.appendChild(ul)
+    return div
+}
+
 function drugs(drugs) {
     let ul = document.createElement('ul')
     let div = document.createElement('div')
     let array = drugs.split(':')
+    let h = document.createElement('h4')
+
     div.className = 'doctor'
     array.pop()
-    let h = document.createElement('h4')
     h.innerText = array[0]
     ul.appendChild(h)
     for (let i = 1; i < array.length; i++) {
