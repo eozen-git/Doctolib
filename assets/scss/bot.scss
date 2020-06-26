@@ -48,6 +48,17 @@ form {
     max-width: 50px;
   }
 }
+
 .textarea {
   width: 55%;
+}
+
+.covid {
+  width: 100%;
+  background-color: #ffe599;
+
+  p {
+    padding: 1rem;
+    font-weight: bold;
+  }
 }
