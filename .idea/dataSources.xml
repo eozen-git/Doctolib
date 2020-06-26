@@ -13,5 +13,14 @@
         <property name="serverTimezone" value="UTC" />
       </driver-properties>
     </data-source>
+    <data-source source="LOCAL" name="@localhost" uuid="b0381990-353f-4861-add3-37fd15090490">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
+      <vm-env>
+        <property name="SET GLOBAL time_zone " value=" '+8:00'" />
+      </vm-env>
+    </data-source>
   </component>
 </project>
