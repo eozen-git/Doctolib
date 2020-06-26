@@ -79,7 +79,7 @@ function drugs(drugs) {
     ul.appendChild(h)
     for (let i = 1; i < array.length; i++) {
         let li = document.createElement('li')
-        let link = createBtn(array[i], '')
+        let link = createBtn(array[i], '/drugs/meds/' + array[i])
         link.className = 'link-li'
         li.appendChild(link)
         ul.appendChild(li)
