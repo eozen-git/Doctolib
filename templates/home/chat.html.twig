@@ -1,23 +1,30 @@
 {% extends "base.html.twig" %}
+
         {% block stylesheets %}
-            <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/assets/css/chat.min.css">
+            <link rel="stylesheet" type="text/css"
+                  href="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/assets/css/chat.min.css">
+            {{ encore_entry_link_tags('bot') }}
         {% endblock %}
 
 
 {% block body %}
-<div id="chatArea">
-    {{ dump(conversation) }}
-    <div id="messageArea">
-        {% for message in conversation %}
-            <p>{{ message.message }}</p>
-        {% endfor %}
+    <div id="chatArea">
+        <div id="messageArea">
+
+        </div>
+
+        {{ form_start(form) }}
+
+        {{ form_widget(form.message) }}
+        <button type="submit" class="btn-message btn btn-sm" id="click"><i class="fas fa-location-arrow"></i></button>
+
+        <button type="button" class="btn btn-outline-success btn-sm" id="return" href="#"><i class="fas fa-home"></i></button>
+        {{ form_end(form) }}
     </div>
-    {{ form_start(form) }}
-    {{ form_end(form) }}
-</div>
 {% endblock %}
 
     {% block javascripts %}
         {{ parent() }}
         {{ encore_entry_script_tags('messagerie') }}
+{#        <script id="botmanWidget" src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/chat.js'></script>#}
     {% endblock %}
