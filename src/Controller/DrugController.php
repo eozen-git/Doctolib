@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Conversation;
+use App\Entity\Drug;
 use App\Entity\Message;
 use App\Form\MessageType;
 use App\Repository\DiseaseRepository;
@@ -48,4 +49,19 @@ class DrugController extends AbstractController
 
             return $this->redirectToRoute('botman_chat');
         }
+
+    /**
+     * @Route("/drugs/show/{id}", name="drugs_show")
+     * @param Drug $drug
+     * @return Response
+     */
+    public function show(Drug $drug): Response
+    {
+        $molecule = $drug->getMolecule();
+        return $this->render('drugs/show.html.twig', [
+            'drug' => $drug,
+            'molecule' => $molecule
+
+        ]);
+    }
 }

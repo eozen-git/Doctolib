@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}
+    {{ encore_entry_link_tags('drug') }}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-around align-items-center vh-100">
+        <div class="d-flex flex-column col-6 bg-primary rounded">
+            <h1 class="text-center my-4">{{ drug.name}}</h1>
+            <div>
+                <div class="mb-3 d-flex flex-column">
+                    <h4>Description :</h4>
+                    <p>{{ drug.description }}</p>
+                </div>
+                <div>
+                    <p><i>Molecule: {{ molecule.name }}</i></p>
+                </div>
+                <div class="d-flex justify-content-around">
+                    <p>price : {{ drug.price }}</p>
+                    <p>refund rate : {{ drug.refundRate }}%</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+        {{ parent() }}
+        <script>
+            var botmanWidget = {
+                title: 'Dr Botman',
+                background: '#008ede'
+            };
+        </script>
+        <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
+
+    {% endblock %}
+
+{% endblock %}
