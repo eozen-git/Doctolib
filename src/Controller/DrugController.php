@@ -27,10 +27,15 @@ class DrugController extends AbstractController
      * @var EntityManagerInterface
      */
     private $em;
+    /**
+     * @var DiseaseRepository
+     */
+    private $getDiseaseRepository;
 
-    public function __construct(DrugRepository $drugRepository, EntityManagerInterface $em)
+    public function __construct(DrugRepository $drugRepository, DiseaseRepository $diseaseRepository, EntityManagerInterface $em)
     {
         $this->getDrugRepository = $drugRepository;
+        $this->getDiseaseRepository = $diseaseRepository;
         $this->em = $em;
     }
 
@@ -70,21 +75,74 @@ class DrugController extends AbstractController
         string $medic
     ): string
     {
-        return (string) $this->getDrugRepository->findOneBy(['name' => $medic])->getDescription();
+        return (string)$this->getDrugRepository->findOneBy(['name' => $medic])->getDescription();
     }
 
     /**
-     * @Route("/drugs/show/{id}", name="drugs_show")
-     * @param Drug $drug
+     * @Route("/drugs/meds/{disease}", name="drugs_meds")
+     * @param string $disease
      * @return Response
+     * @throws Exception
      */
-    public function show(Drug $drug): Response
+    public function meds(
+        string $disease
+    ): Response
     {
-        $molecule = $drug->getMolecule();
-        return $this->render('drugs/show.html.twig', [
-            'drug' => $drug,
-            'molecule' => $molecule
+        $drugs = $this->getDiseaseRepository->findOneBy(['name' => $disease])->getDrugs();
+        $medicines = [];
+        foreach ($drugs as $drug) {
+            $medicines[] = $drug->getName() . ":";
+        }
+        $conversation = new Conversation();
+        $medicines = implode("", $medicines);
+        $conversation->setMessage("The medicines for " . $disease . " are:" . $medicines);
+        $conversation->setPostAt(new DateTime());
+        $this->em->persist($conversation);
+        $this->em->flush();
 
-        ]);
+        return $this->redirectToRoute('botman_chat');
     }
+
+    /**
+     * @Route("/drugs/generics/{medic}", name="drugs_generics")
+     * @param string $medic
+     * @return array
+     */
+    public function generics(
+        string $medic
+    ): Response
+    {
+        $drug = $this->getDrugRepository->findOneBy(['name' => $medic]);
+        $molecule = $drug->getMolecule();
+        $drugs = $molecule->getDrugs();
+
+        $medicines = [];
+        foreach ($drugs as $drug) {
+            $medicines[] = $drug->getName() . ":";
+        }
+        $conversation = new Conversation();
+        $medicines = implode("", $medicines);
+        $conversation->setMessage("The generics for " . $medic . " are:" . $medicines);
+        $conversation->setPostAt(new DateTime());
+        $this->em->persist($conversation);
+        $this->em->flush();
+
+        return $this->redirectToRoute('botman_chat');
+    }
+
+/**
+ * @Route("/drugs/show/{id}", name="drugs_show")
+ * @param Drug $drug
+ * @return Response
+ */
+public
+function show(Drug $drug): Response
+{
+    $molecule = $drug->getMolecule();
+    return $this->render('drugs/show.html.twig', [
+        'drug' => $drug,
+        'molecule' => $molecule
+
+    ]);
+}
 }

@@ -18,9 +18,7 @@
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
-      <vm-env>
-        <property name="SET GLOBAL time_zone " value=" '+8:00'" />
-      </vm-env>
+      <vm-options>SET GLOBAL time_zone = '+8:00';</vm-options>
     </data-source>
   </component>
 </project>

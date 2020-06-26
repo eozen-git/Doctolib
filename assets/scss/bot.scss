@@ -14,6 +14,7 @@
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 .doctor {
@@ -28,7 +29,6 @@ a {
 
   &:nth-child(even) {
     margin-left: auto;
-    text-align: right;
   }
 }
 
