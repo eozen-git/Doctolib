@@ -130,18 +130,25 @@ function createBubble(txt) {
 }
 
 function welcome() {
-    let btn1 = createBtn('Diseases', '/disease/index')
-    let btn2 = createBtn('Drugs', '/drugs/index')
+    let btn1 = createBtn('Diseases', '/disease/index');
+    let btn2 = createBtn('Drugs', '/drugs/index');
     let divLink = document.createElement('div');
+    let divInfo = document.createElement('div');
     let p = document.createElement('p');
+    let pInfo = document.createElement('p');
     let div = document.createElement('div');
+    divInfo.className = 'covid'
     divLink.className = "link my-2"
     div.className = "doctor"
+
+    pInfo.innerText = 'ALERT COVID-19: Make sure you disinfect your hands and your practice between patients'
     p.innerText =
         "Welcome doctor, what would you like ?"
     divLink.appendChild(btn1)
     divLink.appendChild(btn2)
     div.appendChild(p)
+    divInfo.appendChild(pInfo)
+    results.appendChild(divInfo)
     results.appendChild(div)
     return results.appendChild(divLink)
 }
