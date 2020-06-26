@@ -11,6 +11,7 @@ use App\Repository\DrugRepository;
 use App\Repository\MoleculeRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,7 +39,7 @@ class DrugController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @param DrugRepository $drugRepository
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function index(
         EntityManagerInterface $entityManager,
@@ -48,11 +49,11 @@ class DrugController extends AbstractController
         $drugs = $drugRepository->findAll();
         $medicines = [];
         foreach ($drugs as $drug) {
-            $medicines[] = $drug->getName();
+            $medicines[] = $drug->getName() . ":";
         }
         $conversation = new Conversation();
-        $medicines = implode(", ", $medicines);
-        $conversation->setMessage("The available medicines are " . $medicines . '.');
+        $medicines = implode("", $medicines);
+        $conversation->setMessage("The available medicines are:" . $medicines);
         $conversation->setPostAt(new DateTime());
         $entityManager->persist($conversation);
         $entityManager->flush();
