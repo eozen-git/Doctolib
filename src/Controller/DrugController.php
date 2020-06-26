@@ -18,34 +18,56 @@ use Symfony\Component\Routing\Annotation\Route;
 class DrugController extends AbstractController
 {
     /**
-     * @Route("/drugs/index", name="drugs_index")
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @param MoleculeRepository $moleculeRepository
-     * @param DrugRepository $drugRepository
-     * @param DiseaseRepository $diseaseRepository
-     * @return Response
+     * @var DrugRepository
      */
-        public function index(
-            Request $request,
-            EntityManagerInterface $entityManager,
-            MoleculeRepository $moleculeRepository,
-            DrugRepository $drugRepository,
-            DiseaseRepository $diseaseRepository
-        ): Response
-        {
-            $drugs = $drugRepository->findAll();
-            $medicines = [];
-            foreach ($drugs as $drug) {
-                $medicines[] = $drug->getName();
-            }
-            $conversation = new Conversation();
-            $medicines = implode(", ", $medicines);
-            $conversation->setMessage("The available medicines are " . $medicines . '.');
-            $conversation->setPostAt(new DateTime());
-            $entityManager->persist($conversation);
-            $entityManager->flush();
+    private $getDrugRepository;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
 
-            return $this->redirectToRoute('botman_chat');
+    public function __construct(DrugRepository $drugRepository, EntityManagerInterface $em)
+    {
+        $this->getDrugRepository = $drugRepository;
+        $this->em = $em;
+    }
+
+    /**
+     * @Route("/drugs/index", name="drugs_index")
+     * @param EntityManagerInterface $entityManager
+     * @param DrugRepository $drugRepository
+     * @return Response
+     * @throws \Exception
+     */
+    public function index(
+        EntityManagerInterface $entityManager,
+        DrugRepository $drugRepository
+    ): Response
+    {
+        $drugs = $drugRepository->findAll();
+        $medicines = [];
+        foreach ($drugs as $drug) {
+            $medicines[] = $drug->getName();
         }
+        $conversation = new Conversation();
+        $medicines = implode(", ", $medicines);
+        $conversation->setMessage("The available medicines are " . $medicines . '.');
+        $conversation->setPostAt(new DateTime());
+        $entityManager->persist($conversation);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('botman_chat');
+    }
+
+    /**
+     * @Route("/drugs/therapy", name="drugs_therapy")
+     * @param string $medic
+     * @return String
+     */
+    public function therapy(
+        string $medic
+    ): string
+    {
+        return (string) $this->getDrugRepository->findOneBy(['name' => $medic])->getDescription();
+    }
 }
