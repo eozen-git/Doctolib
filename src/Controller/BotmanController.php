@@ -164,10 +164,10 @@ class BotmanController extends AbstractController
                     $entityManager->persist($conversation);
                     $entityManager->flush();
                     $conversation2 = new Conversation();
-                    $conversation2->setMessage('The active molecule of ' . $medic . ' is : ' . $mols .
-                        '. Its price is ' . $price .
-                        '€. Its refund rate is of ' . $refundRate .
-                        '%. ' . $drugController->therapy($medic));
+                    $conversation2->setMessage('The active molecule of ' . $medic . ' is:' . $mols .
+                        '-Its price is:' . $price .
+                        '€-Its refund rate is of:' . $refundRate .
+                        '%-' . $drugController->therapy($medic));
                     $conversation2->setPostAt(new DateTime());
                     $entityManager->persist($conversation2);
                     $entityManager->flush();
