@@ -3,6 +3,15 @@ let message_message = document.getElementById('message_message');
 let click = document.getElementById('click')
 let reset = document.getElementById('return')
 
+
+// addEventListener
+reset.addEventListener('click', function (e) {
+    message_message.value = 'home'
+    let click = document.getElementById('click');
+    click.click()
+})
+
+
 window.onload = function getMessages() {
     let control = document.getElementById('messageArea');
 
@@ -16,13 +25,19 @@ window.onload = function getMessages() {
         .then(conversation => {
 
             for (message of conversation) {
-                let div = createBubble(message.message)
-
-                results.appendChild(div);
 
                 if (message.message === "home") {
                     let divLink = welcome()
                     results.appendChild(divLink)
+                }else if (message.message.match("^The available")) {
+                    let divLink = drugs(message.message)
+                    results.appendChild(divLink)
+                }else if (message.message.match("^The diseases you")) {
+                    let divLink = drugs(message.message)
+                    results.appendChild(divLink)
+                } else {
+                    let div = createBubble(message.message)
+                    results.appendChild(div);
                 }
 
                 let message_message = document.getElementById('message_message');
@@ -35,6 +50,28 @@ window.onload = function getMessages() {
                 })
             }
         })
+}
+
+function drugs(drugs) {
+    let ul = document.createElement('ul')
+    let div = document.createElement('div')
+    let array = drugs.split(':')
+    div.className = 'doctor'
+    array.pop()
+
+    let h = document.createElement('h4')
+    h.innerText = array[0]
+    ul.appendChild(h)
+
+    for (let i = 1; i < array.length; i++) {
+        let li = document.createElement('li')
+        let link = createBtn(array[i], '')
+        link.className = 'link-li'
+        li.appendChild(link)
+        ul.appendChild(li)
+    }
+    div.appendChild(ul)
+    return div
 }
 
 function createBtn(name, link) {
@@ -77,16 +114,3 @@ function welcome() {
     results.appendChild(div)
     return results.appendChild(divLink)
 }
-
-// addEventListener
-click.addEventListener('click', function (e) {
-    let textBot = document.getElementById('userText');
-    message_message.value = textBot.value
-})
-
-// addEventListener
-reset.addEventListener('click', function (e) {
-    message_message.value = 'home'
-    let click = document.getElementById('click');
-    click.click()
-})

@@ -37,11 +37,11 @@ class DrugController extends AbstractController
             $drugs = $drugRepository->findAll();
             $medicines = [];
             foreach ($drugs as $drug) {
-                $medicines[] = $drug->getName();
+                $medicines[] = ':' . $drug->getName();
             }
             $conversation = new Conversation();
-            $medicines = implode(", ", $medicines);
-            $conversation->setMessage("The available medicines are " . $medicines . '.');
+            $medicines = implode("", $medicines);
+            $conversation->setMessage("The available medicines are" . $medicines);
             $conversation->setPostAt(new DateTime());
             $entityManager->persist($conversation);
             $entityManager->flush();

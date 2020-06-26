@@ -23,6 +23,8 @@ a {
   width: 70%;
   border: 1px solid #0087de;
   border-radius: 10px;
+  max-height: 250px;
+  overflow-y: auto;
 
   &:nth-child(even) {
     margin-left: auto;
