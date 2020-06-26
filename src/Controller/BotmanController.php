@@ -153,7 +153,7 @@ class BotmanController extends AbstractController
                     $entityManager->persist($conversation);
                     $entityManager->flush();
                     $conversation2 = new Conversation();
-                    $conversation2->setMessage('The medicines with active molecule ' . $medic . ' aregit a : ' . $medics . '.');
+                    $conversation2->setMessage('The medicines with active molecule ' . $medic . ' are : ' . $medics . '.');
                     $conversation2->setPostAt(new DateTime());
                     $entityManager->persist($conversation2);
                     $entityManager->flush();
@@ -163,11 +163,15 @@ class BotmanController extends AbstractController
                     $drug = $drugRepository->findOneBy(['name' => $medic]);
                     $molecules = $drug->getMolecule();
                     $mols = $molecules->getName();
+                    $price = $drug->getPrice();
+                    $refundRate = $drug->getRefundRate();
                     $conversation->setPostAt(new DateTime());
                     $entityManager->persist($conversation);
                     $entityManager->flush();
                     $conversation2 = new Conversation();
-                    $conversation2->setMessage('The active molecule of ' . $medic . ' is : ' . $mols . '.');
+                    $conversation2->setMessage('The active molecule of ' . $medic . ' is : ' . $mols .
+                        '. Its price is ' . $price .
+                        '€. Its refund rate is of ' . $refundRate . '%.');
                     $conversation2->setPostAt(new DateTime());
                     $entityManager->persist($conversation2);
                     $entityManager->flush();
