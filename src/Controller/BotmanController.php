@@ -84,17 +84,17 @@ class BotmanController extends AbstractController
                 $conversation = new Conversation();
                 $conversation->setMessage($data->getMessage());
                 $disease = $diseaseRepository->findOneBy(['name' => 'Breast Cancer']);
-                $drugs = $disease->getDrugs();
-                $pills = [];
-                foreach ($drugs as $drug) {
-                    $pills[] = $drug->getName();
+                $diseases = $disease->getDrugs();
+                $illness = [];
+                foreach ($diseases as $disease) {
+                    $illness[] = $disease->getName() . ":";
                 }
-                $pills = implode(", ", $pills);
+                $illness = implode("", $illness);
                 $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
-                $conversation2->setMessage('The available drugs against the ' . $disease->getName() . ' are : ' . $pills . '.');
+                $conversation2->setMessage("The diseases you can choose from are:" . $illness);
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
@@ -102,17 +102,17 @@ class BotmanController extends AbstractController
                 $conversation = new Conversation();
                 $conversation->setMessage($data->getMessage());
                 $disease = $diseaseRepository->findOneBy(['name' => 'Prostate Cancer']);
-                $drugs = $disease->getDrugs();
-                $pills = [];
-                foreach ($drugs as $drug) {
-                    $pills[] = $drug->getName();
+                $diseases = $disease->getDrugs();
+                $illness = [];
+                foreach ($diseases as $disease) {
+                    $illness[] = $disease->getName() . ":";
                 }
-                $pills = implode(", ", $pills);
+                $illness = implode("", $illness);
                 $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
-                $conversation2->setMessage('The available drugs against the ' . $disease->getName() . ' are : ' . $pills . '.');
+                $conversation2->setMessage("The diseases you can choose from are:" . $illness);
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
