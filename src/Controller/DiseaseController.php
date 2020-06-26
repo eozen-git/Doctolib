@@ -20,27 +20,24 @@ class DiseaseController extends AbstractController
 {
     /**
      * @Route("/disease/index", name="disease_index")
-     * @param Request $request
+     * @param Request                $request
      * @param EntityManagerInterface $entityManager
-     * @param MoleculeRepository $moleculeRepository
-     * @param DrugRepository $drugRepository
-     * @param DiseaseRepository $diseaseRepository
+     * @param DiseaseRepository      $diseaseRepository
      * @return Response
      */
     public function index(
         Request $request,
         EntityManagerInterface $entityManager,
         DiseaseRepository $diseaseRepository
-    ): Response
-    {
+    ): Response {
         $diseases = $diseaseRepository->findAll();
         $illness = [];
         foreach ($diseases as $disease) {
-            $illness[] = $disease->getName();
+            $illness[] = $disease->getName() . ":";
         }
         $conversation = new Conversation();
-        $illness = implode(", ", $illness);
-        $conversation->setMessage("The diseases you can choose from are " . $illness . '.');
+        $illness = implode("", $illness);
+        $conversation->setMessage("The diseases you can choose from are:" . $illness);
         $conversation->setPostAt(new DateTime());
         $entityManager->persist($conversation);
         $entityManager->flush();

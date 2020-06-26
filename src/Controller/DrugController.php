@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Conversation;
+use App\Entity\Drug;
 use App\Entity\Message;
 use App\Form\MessageType;
 use App\Repository\DiseaseRepository;
@@ -69,5 +70,20 @@ class DrugController extends AbstractController
     ): string
     {
         return (string) $this->getDrugRepository->findOneBy(['name' => $medic])->getDescription();
+    }
+
+    /**
+     * @Route("/drugs/show/{id}", name="drugs_show")
+     * @param Drug $drug
+     * @return Response
+     */
+    public function show(Drug $drug): Response
+    {
+        $molecule = $drug->getMolecule();
+        return $this->render('drugs/show.html.twig', [
+            'drug' => $drug,
+            'molecule' => $molecule
+
+        ]);
     }
 }

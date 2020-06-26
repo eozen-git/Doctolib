@@ -1,8 +1,5 @@
 <?php
-
-
 namespace App\Controller;
-
 use App\Entity\Conversation;
 use App\Entity\Message;
 use App\Form\MessageType;
@@ -25,7 +22,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\DrugController;
 
-
 class BotmanController extends AbstractController
 {
     /**
@@ -34,10 +30,8 @@ class BotmanController extends AbstractController
      */
     public function index(): Response
     {
-
         return $this->render('home/home.html.twig');
     }
-
     /**
      * @Route("/botman/chat", name="botman_chat")
      * @param Request $request
@@ -66,7 +60,6 @@ class BotmanController extends AbstractController
         if ($form->isSubmitted()) {
             $data = $form->getData();
             if (strtolower($data->getMessage()) === 'home') {
-
                 $conversation->setMessage($data->getMessage());
                 $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
@@ -88,7 +81,6 @@ class BotmanController extends AbstractController
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
             } elseif (strtolower($data->getMessage()) === 'breast cancer') {
-
                 $conversation = new Conversation();
                 $conversation->setMessage($data->getMessage());
                 $disease = $diseaseRepository->findOneBy(['name' => 'Breast Cancer']);
@@ -151,7 +143,6 @@ class BotmanController extends AbstractController
                     foreach ($medocs as $medoc) {
                         $medics[] = $medoc->getName();
                     }
-
                     $medics = implode(", ", $medics);
                     $conversation->setPostAt(new DateTime());
                     $entityManager->persist($conversation);
@@ -191,14 +182,11 @@ class BotmanController extends AbstractController
                     $conversation2->setPostAt(new DateTime());
                     $entityManager->persist($conversation2);
                     $entityManager->flush();
-
                 }
             }
         }
         return $this->render('home/chat.html.twig', [
             'form' => $form->createView(),
-
         ]);
     }
 }
-
