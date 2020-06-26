@@ -95,7 +95,7 @@ class DrugController extends AbstractController
         }
         $conversation = new Conversation();
         $medicines = implode("", $medicines);
-        $conversation->setMessage("The available medicines for " . $disease . " are:" . $medicines);
+        $conversation->setMessage("The medicines for " . $disease . " are:" . $medicines);
         $conversation->setPostAt(new DateTime());
         $this->em->persist($conversation);
         $this->em->flush();
@@ -104,15 +104,30 @@ class DrugController extends AbstractController
     }
 
     /**
-     * @Route("/drugs/generics", name="drugs_generics")
+     * @Route("/drugs/generics/{medic}", name="drugs_generics")
      * @param string $medic
      * @return array
      */
     public function generics(
         string $medic
-    ): array
+    ): Response
     {
-        return (array)$this->getDrugRepository->findOneBy(['name' => $medic])->getMolecule()->getDrugs();
+        $drug = $this->getDrugRepository->findOneBy(['name' => $medic]);
+        $molecule = $drug->getMolecule();
+        $drugs = $molecule->getDrugs();
+
+        $medicines = [];
+        foreach ($drugs as $drug) {
+            $medicines[] = $drug->getName() . ":";
+        }
+        $conversation = new Conversation();
+        $medicines = implode("", $medicines);
+        $conversation->setMessage("The generics for " . $medic . " are:" . $medicines);
+        $conversation->setPostAt(new DateTime());
+        $this->em->persist($conversation);
+        $this->em->flush();
+
+        return $this->redirectToRoute('botman_chat');
     }
 
 /**

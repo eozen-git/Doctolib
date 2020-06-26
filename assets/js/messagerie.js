@@ -24,6 +24,9 @@ window.onload = function getMessages() {
                 }else if (message.message.match("^The available")) {
                     let divLink = drugs(message.message)
                     results.appendChild(divLink)
+                }else if (message.message.match("^The medicines")) {
+                    let divLink = medocs(message.message)
+                    results.appendChild(divLink)
                 }else if (message.message.match("^The diseases you")) {
                     let divLink = drugs(message.message)
                     results.appendChild(divLink)
@@ -87,6 +90,28 @@ function drugs(drugs) {
     div.appendChild(ul)
     return div
 }
+
+function medocs(drugs) {
+    let ul = document.createElement('ul')
+    let div = document.createElement('div')
+    let array = drugs.split(':')
+    let h = document.createElement('h4')
+
+    div.className = 'doctor'
+    array.pop()
+    h.innerText = array[0]
+    ul.appendChild(h)
+    for (let i = 1; i < array.length; i++) {
+        let li = document.createElement('li')
+        let link = createBtn(array[i], '/drugs/generics/' + array[i])
+        link.className = 'link-li'
+        li.appendChild(link)
+        ul.appendChild(li)
+    }
+    div.appendChild(ul)
+    return div
+}
+
 function createBtn(name, link) {
     let btn = document.createElement('a');
     btn.className = "btn btn-sm"
@@ -94,6 +119,7 @@ function createBtn(name, link) {
     btn.setAttribute("href", link)
     return btn
 }
+
 function createBubble(txt) {
     let div = document.createElement('div');
     let p = document.createElement('p');
@@ -102,6 +128,7 @@ function createBubble(txt) {
     div.appendChild(p);
     return div
 }
+
 function welcome() {
     let btn1 = createBtn('Diseases', '/disease/index')
     let btn2 = createBtn('Drugs', '/drugs/index')
