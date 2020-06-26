@@ -128,5 +128,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="botman-web-widget" level="application" />
+    <orderEntry type="library" name="bfe9f51c30" level="application" />
   </component>
 </module>
