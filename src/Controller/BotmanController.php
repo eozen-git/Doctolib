@@ -20,6 +20,8 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\DrugController;
+
 class BotmanController extends AbstractController
 {
     /**
@@ -32,19 +34,22 @@ class BotmanController extends AbstractController
     }
     /**
      * @Route("/botman/chat", name="botman_chat")
-     * @param Request                $request
+     * @param Request $request
      * @param EntityManagerInterface $entityManager
-     * @param MoleculeRepository     $moleculeRepository
-     * @param DrugRepository         $drugRepository
-     * @param DiseaseRepository      $diseaseRepository
+     * @param MoleculeRepository $moleculeRepository
+     * @param DrugRepository $drugRepository
+     * @param DiseaseRepository $diseaseRepository
+     * @param \App\Controller\DrugController $drugController
      * @return Response
+     * @throws \Exception
      */
     public function chat(
         Request $request,
         EntityManagerInterface $entityManager,
         MoleculeRepository $moleculeRepository,
         DrugRepository $drugRepository,
-        DiseaseRepository $diseaseRepository
+        DiseaseRepository $diseaseRepository,
+        DrugController $drugController
     ): Response
     {
         $conversation = new Conversation();
@@ -79,17 +84,17 @@ class BotmanController extends AbstractController
                 $conversation = new Conversation();
                 $conversation->setMessage($data->getMessage());
                 $disease = $diseaseRepository->findOneBy(['name' => 'Breast Cancer']);
-                $drugs = $disease->getDrugs();
-                $pills = [];
-                foreach ($drugs as $drug) {
-                    $pills[] = $drug->getName();
+                $diseases = $disease->getDrugs();
+                $illness = [];
+                foreach ($diseases as $disease) {
+                    $illness[] = $disease->getName() . ":";
                 }
-                $pills = implode(", ", $pills);
+                $illness = implode("", $illness);
                 $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
-                $conversation2->setMessage('The available drugs against the ' . $disease->getName() . ' are : ' . $pills . '.');
+                $conversation2->setMessage("The diseases you can choose from are:" . $illness);
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
@@ -97,17 +102,17 @@ class BotmanController extends AbstractController
                 $conversation = new Conversation();
                 $conversation->setMessage($data->getMessage());
                 $disease = $diseaseRepository->findOneBy(['name' => 'Prostate Cancer']);
-                $drugs = $disease->getDrugs();
-                $pills = [];
-                foreach ($drugs as $drug) {
-                    $pills[] = $drug->getName();
+                $diseases = $disease->getDrugs();
+                $illness = [];
+                foreach ($diseases as $disease) {
+                    $illness[] = $disease->getName() . ":";
                 }
-                $pills = implode(", ", $pills);
+                $illness = implode("", $illness);
                 $conversation->setPostAt(new DateTime());
                 $entityManager->persist($conversation);
                 $entityManager->flush();
                 $conversation2 = new Conversation();
-                $conversation2->setMessage('The available drugs against the ' . $disease->getName() . ' are : ' . $pills . '.');
+                $conversation2->setMessage("The diseases you can choose from are:" . $illness);
                 $conversation2->setPostAt(new DateTime());
                 $entityManager->persist($conversation2);
                 $entityManager->flush();
@@ -143,21 +148,26 @@ class BotmanController extends AbstractController
                     $entityManager->persist($conversation);
                     $entityManager->flush();
                     $conversation2 = new Conversation();
-                    $conversation2->setMessage('The medicines with active molecule ' . $medic . ' aregit a : ' . $medics . '.');
+                    $conversation2->setMessage('The medicines with active molecule ' . $medic . ' are : ' . $medics . '.');
                     $conversation2->setPostAt(new DateTime());
                     $entityManager->persist($conversation2);
                     $entityManager->flush();
                 } elseif (in_array($medic, $drugsName)) {
                     $conversation = new Conversation();
                     $conversation->setMessage($data->getMessage());
+                    $conversation->setPostAt(new DateTime());
                     $drug = $drugRepository->findOneBy(['name' => $medic]);
                     $molecules = $drug->getMolecule();
                     $mols = $molecules->getName();
-                    $conversation->setPostAt(new DateTime());
+                    $price = $drug->getPrice();
+                    $refundRate = $drug->getRefundRate();
                     $entityManager->persist($conversation);
                     $entityManager->flush();
                     $conversation2 = new Conversation();
-                    $conversation2->setMessage('The active molecule of ' . $medic . ' is : ' . $mols . '.');
+                    $conversation2->setMessage('The active molecule of ' . $medic . ' is : ' . $mols .
+                        '. Its price is ' . $price .
+                        '€. Its refund rate is of ' . $refundRate .
+                        '%. ' . $drugController->therapy($medic));
                     $conversation2->setPostAt(new DateTime());
                     $entityManager->persist($conversation2);
                     $entityManager->flush();
