@@ -2,7 +2,7 @@
 
 ## Description
 
-Ce projet est un chatbot réalisé durant un hackathon de 48h en partenariat avec Doctolib, dont le thème était l'e-santé. Le chatbot est destiné à fournir un appui aux médecins clients de Doctolib Pro en leur fournissant des informations de base sur les médicaments, à la manière de ce que pourrait être un croisement entre un Vidal de poche et une base de données de la Sécurité Sociale concernant leurs prix/taux de remboursements. L'idée aurait été idéalement d'en faire une appli mobile pour les médecins en déplacement.
+Ce projet est un chatbot réalisé durant un hackathon de 48h en partenariat avec Doctolib, dont le thème était l'e-santé. Le chatbot est destiné à fournir un appui aux médecins clients de Doctolib Pro en leur fournissant des informations de base sur les médicaments, à la manière de ce que pourrait être un croisement entre un Vidal de poche et une base de données de la Sécurité Sociale concernant leurs prix/taux de remboursement. L'idée aurait été idéalement d'en faire une appli mobile pour les médecins en déplacement.
 
 Chaque traitement comprend les informations suivantes :
 * Description
